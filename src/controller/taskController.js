@@ -1,12 +1,15 @@
+// import required modules
 const fs = require("fs");
 const path = require("path");
 const dbPath = path.join(__dirname, "../../data/db.json");
 let db = require(dbPath);
 
+// save changes to the data made to the db.json file
 const saveToDb = () => {
 	fs.writeFileSync(dbPath, JSON.stringify(db, null, 2));
 };
 
+// gets all tasks from db.json
 const getTasks = (req, res) => {
 	try {
 		res.status(200).json(db.tasks);
@@ -15,6 +18,7 @@ const getTasks = (req, res) => {
 	}
 };
 
+// gets a specific task based on id
 const getTasksById = (req, res) => {
 	const tasks = db.tasks.find((task) => task.id == req.params.id);
 	if (tasks) {
@@ -24,6 +28,7 @@ const getTasksById = (req, res) => {
 	}
 };
 
+// adds a new task to db.json
 const createTask = (req, res) => {
 	const { name, description, status } = req.body;
 	const newTask = {};
@@ -36,6 +41,7 @@ const createTask = (req, res) => {
 	res.status(201).json(newTask);
 };
 
+// partially updates an existing task based on id
 const partailUpdateTask = (req, res) => {
 	const taskIndex = db.tasks.findIndex((task) => task.id == req.params.id);
 	const { name, description, status } = req.body;
@@ -64,6 +70,7 @@ const partailUpdateTask = (req, res) => {
 	}
 };
 
+// updates an existing task based on id
 const updateTask = (req, res) => {
 	const taskIndex = db.tasks.findIndex((task) => task.id == req.params.id);
 	const { name, description, status } = req.body;
@@ -92,6 +99,7 @@ const updateTask = (req, res) => {
 	}
 };
 
+// deletes an existing task based on id
 const deleteTask = (req, res) => {
 	const originalLength = db.tasks.length;
 	db.tasks = db.tasks.filter((task) => task.id != req.params.id);
@@ -104,6 +112,7 @@ const deleteTask = (req, res) => {
 	}
 };
 
+// exporting all the functions to use it in another file
 module.exports = {
 	getTasks,
 	getTasksById,

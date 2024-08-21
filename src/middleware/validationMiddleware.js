@@ -1,8 +1,10 @@
+// import required module
 const fs = require("fs");
 const path = require("path");
 
 const tasksPath = path.join(__dirname, "../../data/db.json");
 
+// verifies whether the request body contains name and status to perform operation
 const validateTask = (req, res, next) => {
 	const { name, status } = req.body;
 	if (!name || !status) {
@@ -13,6 +15,7 @@ const validateTask = (req, res, next) => {
 	next();
 };
 
+// validates where the task requested exists or not
 const validateTaskExistence = (req, res, next) => {
 	const db = JSON.parse(fs.readFileSync(tasksPath));
 	const task = db.tasks.find((task) => task.id == req.params.id);

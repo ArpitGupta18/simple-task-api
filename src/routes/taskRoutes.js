@@ -13,6 +13,7 @@ const {
 	validateTaskExistence,
 } = require("../middleware/validationMiddleware");
 
+// router with the http methods linked with thr functions in the controller
 router.get("/", getTasks);
 router.get("/:id", validateTaskExistence, getTasksById);
 router.post("/", validateTask, createTask);
